@@ -6,6 +6,13 @@ This is the accompanying source code for the following article. Please read for 
 
 https://medium.com/swlh/beautiful-load-testing-with-k6-and-docker-compose-4454edb3a2e3
 
+Commands:
+```
+docker-compose up -d influxdb grafana
+docker-compose run k6 run /scripts/ewoks.js
+
+```
+
 #### Dashboards
 The dashboard in /dashboards is adapted from the excellent K6 / Grafana dashboard here:
 https://grafana.com/grafana/dashboards/2587
