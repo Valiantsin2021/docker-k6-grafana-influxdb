@@ -33,7 +33,7 @@ export let options = {
     // Ramp-up from 1 to TARGET_VUS virtual users (VUs) in 5s
     { duration: '5s', target: target_vus },
     // Stay at rest on TARGET_VUS VUs for 10s
-    { duration: '50s', target: target_vus },
+    { duration: '10s', target: target_vus },
     // Ramp-down from TARGET_VUS to 0 VUs for 5s
     { duration: '5s', target: 0 }
   ]
@@ -41,7 +41,7 @@ export let options = {
 
 export default function () {
   describe('Basic API test', (t) => {
-    const response = http.get('https://gorest.co.in/public/v2/users', { headers: { Accepts: 'application/json' } })
+    const response = http.get('http://localhost:3000/', { headers: { Accepts: 'application/json' } })
     if (response.status === 404) {
       // custom metrics for status code
       myErrorCounter.add(1)
@@ -60,14 +60,11 @@ export default function () {
       .toEqual('object')
       .and(Object.keys(response.json()[0]).length)
       .toEqual(5)
-    check(
-      response,
-      {
-        'status is 200': (r) => r.status === 200,
-        'transaction time OK': (r) => r.timings.duration < 400,
-        'response body has ID key': (r) => r.json().id === 1831351
-      }
-    ) // native assertions
+    check(response, {
+      'status is 200': (r) => r.status === 200,
+      'transaction time OK': (r) => r.timings.duration < 400,
+      'response body has ID key': (r) => r.json().id === 1831351
+    }) // native assertions
   })
   xdescribe('Dummy example', () => {
     xexpect(10).to.be.within(8, 12) // OK
